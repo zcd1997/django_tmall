@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    首页
+{% endblock %}
+{% block css %}
+    <!-- top的css样式-->
+    <style type="text/css">
+        #top{
+            background: #f2f2f2;
+            height: 32px;
+        }
+        #top_left > span{
+            float: left;
+            margin-top: 5px;
+            padding-right: 20px;
+        }
+        #top_right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: 5px;
+        }
+        #top_right >span{
+            padding-left: 10px;
+        }
+        .top_font{
+            color: gray;
+        }
+        .glyphicon{
+            color: red;
+        }
+    </style>
+{% endblock %}
+{% block head %}
+    {% include 'include/top.html' %}
+    {% include 'include/serach.html' %}
+    {% include 'top_page.html' %}
+{% endblock %}
+
+{% block main %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
