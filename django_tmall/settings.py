@@ -45,6 +45,8 @@ MY_APPS =[
     'apps.shop_order',
     #支付模块
     'apps.shop_pay',
+    #搜索模块
+    'apps.search'
 ]
 
 INSTALLED_APPS = SYS_APPS + EXT_APPS +MY_APPS

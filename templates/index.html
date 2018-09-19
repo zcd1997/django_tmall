@@ -4,33 +4,275 @@
     首页
 {% endblock %}
 {% block css %}
-    <!-- top的css样式-->
+    {#    顶部的css样式#}
     <style type="text/css">
-        #top{
+        #top {
+            position: relative;
             background: #f2f2f2;
             height: 32px;
         }
-        #top_left > span{
+
+        #top_left {
+            position: absolute;
+            top: 0;
+            left: 50px;
+        }
+
+        #top_left > span {
             float: left;
             margin-top: 5px;
             padding-right: 20px;
         }
+
         #top_right {
             position: absolute;
-            right: 0;
+            right: 50px;
             top: 0;
             margin-top: 5px;
         }
-        #top_right >span{
+
+        #top_right > span {
             padding-left: 10px;
         }
-        .top_font{
+
+        .top_font {
             color: gray;
         }
-        .glyphicon{
+
+        .glyphicon {
             color: red;
         }
     </style>
+    {#    导航栏css样式#}
+    <style type="text/css">
+        #navigation_id {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            border-bottom: 2px solid red;
+        }
+
+        #navigation_id li {
+            list-style: none;
+            float: left;
+            padding: 6px 10px;
+        }
+
+        #nav_ul {
+            position: absolute;
+            left: 330px;
+        }
+
+        #navigation_id a {
+            color: black;
+            font-size: 20px;
+            font-weight: inherit;
+        }
+
+        #navigation_id span {
+            font-size: 20px;
+            font-weight: inherit;
+
+        }
+
+        #navigation_id img {
+            width: 100px;
+            height: 30px;
+        }
+
+        #nav_li {
+            width: 200px;
+            background: red;
+        }
+
+        #nav_li span {
+            color: white;
+        }
+    </style>
+    {#    搜索框样式#}
+    <style type="text/css">
+        #serach {
+            position: relative;
+            height: 130px;
+            width: 100%;
+        }
+
+        #serach_img_div {
+            position: absolute;
+            left: 280px;
+        }
+
+        #serach_form_div {
+            width: 800px;
+            height: 105px;
+            margin: 0 auto;
+            position: absolute;
+            left: 500px;
+            top: 25px;
+        }
+
+        #serach_form_id {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        #text_id {
+            width: 470px;
+            height: 50px;
+            border: 3px solid red;
+            font-size: 30px;
+        }
+
+        #submit_id {
+            width: 140px;
+            height: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            position: absolute;
+            right: 28px;
+            background: red;
+            color: white;
+
+        }
+    </style>
+    {#    分类菜单样式#}
+    <style type="text/css">
+        #cate_div {
+            position: relative;
+        }
+
+        #cate_id {
+            position: absolute;
+            left: 330px;
+            height: 600px;
+        }
+
+        #cate_id > div > a {
+            padding-top: 5px;
+            color: black;
+            font-size: 15px;
+            font-weight: bold;
+
+        }
+
+        #cate_id > div {
+            width: 200px;
+            height: 35px;
+        }
+
+        #cate_id > div:hover {
+            background: white;
+        }
+
+        .sub {
+            position: absolute;
+            top: 0;
+            left: 200px;
+            width: 800px;
+            height: 600px;
+            background: white;
+        }
+
+        .sub div {
+            display: inline-block;
+        }
+
+        #sub_menu1 {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 12px;
+        }
+
+        #sub_menu2 {
+            margin-left: 75px;
+            color: #1b6d85;
+        }
+    </style>
+    {#   轮播图样式#}
+    <style type="text/css">
+        .banner {
+            width: 100%;
+            position: relative;
+            overflow: auto;
+            text-align: center;
+        }
+
+        .banner ul li {
+            list-style: none;
+            float: left;
+        }
+
+        #banner_id {
+            height: 600px;
+        }
+
+        #banner_id .dots {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 20px;
+        }
+
+        #banner_id .dots li {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 4px;
+            text-indent: -999em;
+            border: 2px solid #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: .4;
+            -webkit-transition: background .5s, opacity .5s;
+            -moz-transition: background .5s, opacity .5s;
+            transition: background .5s, opacity .5s;
+        }
+
+        #banner_id .dots li.active {
+            background: #fff;
+            opacity: 1;
+        }
+
+        #banner_id .arrow {
+            position: absolute;
+            top: 200px;
+        }
+
+        #banner_id #al {
+            left: 15px;
+        }
+
+        #banner_id #ar {
+            right: 15px;
+        }
+
+        #banner_id img {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+
+{% endblock %}
+{% block jq %}
+    <script src="/static/js/unslider.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#banner_id').unslider({
+                dots: true
+            });
+            $("#cate_id>div").mouseover(function () {
+                {#当li鼠标移入之后,当前的ul要显示,其他的要隐藏#}
+                $('.sub').hide();
+                $(this).find('ul').show()
+            });
+            $("#cate_id").mouseleave(function () {
+
+                $(this).find('ul').hide()
+            })
+        })
+    </script>
 {% endblock %}
 {% block head %}
     {% include 'include/top.html' %}
@@ -39,9 +281,9 @@
 {% endblock %}
 
 {% block main %}
-
+    {% include 'include/home_center.html' %}
 {% endblock %}
 
 {% block footer %}
-
+    {% include 'include/footer.html' %}
 {% endblock %}

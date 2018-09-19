@@ -1,21 +1,25 @@
-<ul id="cate_id">
-    {% for category in categories %}
-        <li>
-            <a>{{ category.name }}</a>
-            <ul class="sub">
-                {% for sub in category.subs %}
-                    <li>
-                        <a href="#">{{ sub.name }}</a>
-                        <div>
+<div id="cate_div" class="clear">
+    <div id="cate_id" style="position: absolute;z-index: 1">
+        {% for category in categorise %}
+            <div>
+                <span class="glyphicon glyphicon-grain cate"></span><a href="#">{{ category.name }}</a>
+                <ul class="sub">
+                    {% for sub in category.subs %}
+                        <div id="sub_menu1">
+                            <span id="cate_sub"><span>{{ sub.name }}</span><span
+                                    class="glyphicon glyphicon-menu-right"></span></span>
+                        </div>
+                        <br>
+                        <div id='sub_menu2'>
                             {% for sub2 in sub.subs2 %}
-                                <a>{{ sub2.name }}</a>
+                                <span id="cate_sub2"><a href="#">{{ sub2.name }}</a></span>
+
                             {% endfor %}
                         </div>
-                    </li>
-                {% endfor %}
-
-            </ul>
-        </li>
-    {% endfor %}
-
-</ul>
+                        <br>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</div>

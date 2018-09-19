@@ -1,0 +1,22 @@
+<div style="margin-top: 20px;padding: 10px;width: 100%;height: auto" class="clear">
+    <div>
+        {% for category in categorise %}
+            <div>
+                <p style="font-size: 18px ;border-left: 5px solid aqua;padding-left: 15px">{{ category.name }}</p>
+                <div class="clear">
+                    {% for shop in category.shops %}
+                        <a href="#">
+                            <div style="float: left;width: 18%;padding: 10px;margin-left: 30px">
+                                <img src="/static/img/single/{{ shop.img.shop_img_id }}.jpg"
+                                     style="width: 100%;min-height: 250px">
+                                <p style="white-space: nowrap ;overflow: hidden;  text-overflow:ellipsis;font-size: 16px">
+                                    {{ shop.name }}</p>
+                                <p style="font-size: 16px;color: red">{{ shop.promote_price }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

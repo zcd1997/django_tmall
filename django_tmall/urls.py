@@ -15,4 +15,6 @@ urlpatterns = [
     url('detail/', include('apps.shop_detail.urls')),
     url('car/', include('apps.shop_car.urls')),
     url('cate/', include('apps.cate_detail.urls')),
+    url('search/', include('apps.search.urls')),
+
 ]

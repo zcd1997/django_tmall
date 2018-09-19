@@ -1,7 +1,12 @@
-<div>
-    <img src="">
-    <form action="#" method="get">
-        <input type="text">
-        <input type="submit" value="搜索">
-    </form>
+<div class="clear" id="serach">
+    <div id="serach_img_div">
+        <img src="/static/img/imgs/logo.gif">
+    </div>
+    <div id="serach_form_div">
+        <form action="{% url 'search' %}" method="post" id="serach_form_id">
+            {% csrf_token %}
+            <input type="text" id="text_id" name="keyword">
+            <input type="submit" id="submit_id" value="搜索">
+        </form>
+    </div>
 </div>
