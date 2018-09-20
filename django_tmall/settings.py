@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'apps.user.context_processors.shop_count',
             ],
         },
     },
@@ -134,3 +135,8 @@ STATICFILES_DIRS=(
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
+#全局跳转登录地址
+
+LOGIN_URL = 'user/login/'

@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% block css %}
+    {#    顶部的css样式#}
+    <style type="text/css">
+        #top {
+            position: relative;
+            background: #f2f2f2;
+            height: 32px;
+        }
+
+        #top_left {
+            position: absolute;
+            top: 0;
+            left: 50px;
+        }
+
+        #top_left > span {
+            float: left;
+            margin-top: 5px;
+            padding-right: 20px;
+        }
+
+        #top_right {
+            position: absolute;
+            right: 50px;
+            top: 0;
+            margin-top: 5px;
+        }
+
+        #top_right > span {
+            padding-left: 10px;
+        }
+
+        .top_font {
+            color: gray;
+        }
+
+        .glyphicon {
+            color: red;
+        }
+    </style>
+    {#    搜索框样式#}
+    <style type="text/css">
+        #serach {
+            position: relative;
+            height: 130px;
+            width: 100%;
+        }
+
+        #serach_img_div {
+            position: absolute;
+            left: 280px;
+        }
+
+        #serach_form_div {
+            width: 800px;
+            height: 105px;
+            margin: 0 auto;
+            position: absolute;
+            left: 500px;
+            top: 25px;
+        }
+
+        #serach_form_id {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        #text_id {
+            width: 470px;
+            height: 50px;
+            border: 3px solid red;
+            font-size: 30px;
+        }
+
+        #submit_id {
+            width: 140px;
+            height: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            position: absolute;
+            right: 28px;
+            background: red;
+            color: white;
+
+        }
+    </style>
+    {#    正文样式#}
+    <style type="text/css">
+
+        #search_img > img {
+
+            width: 70%;
+            margin-left: 10%;
+        }
+
+        #search_img > ul {
+            margin-top: 30px;
+            width: 100%;
+            margin-left: 8%;
+        }
+
+        #search_img > ul > li {
+            float: left;
+            width: 15%;
+            margin: 5px;
+        }
+
+        #search_img > ul > li > img:hover {
+            border: 2px solid red;
+        }
+
+        #search_img > ul > li > img {
+            width: 56px;
+            height: 56px;
+        }
+        #search_text > p{
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 35px;
+        }
+
+        #detail_btn {
+            text-align: center;
+        }
+        .btn{
+            border:none;
+        }
+
+        .shop_detail_img {
+            width: 800px;
+            margin: auto;
+        }
+
+        #shop_params {
+            width: 100%;
+        }
+
+        #shop_review {
+            width: 100%;
+            margin: auto;
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
+{% block jq %}
+    <script type="text/javascript">
+        $(function () {
+            $('#search_img li').mouseover(function () {
+                var img_url = $(this).attr('data');
+                $('#search_img>img').attr('src', '/static/img/single/' + img_url + '.jpg')
+            });
+            {#     添加购物车#}
+            $('#add').click(function () {
+                {#  发送ajax请求#}
+                let add_url = 'http://127.0.0.1:9000/car/add/';
+                {#post请求提交参数#}
+                /**
+                 * data  传递的数据
+                 *       string类型  shop_id=1&number=1
+                 *       对象类型  传递的数据比较多的时候建议使用该方式(推荐)  {shop_id:1
+                 *                    number:1
+                 *       }
+                 *
+                 *     403错误 防止跨域攻击
+                 *     1> 如果是ajax请求直接使用  'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                 *     2> 也可以在服务端解决
+                 *     from django.views.decorators.csrf import csrf_exempt
+                 *     @csrf_exempt
+                 */
+                let data = {
+                    shop_id: {{ shop.shop_id }},
+                    number: $('#number').val(),
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                };
+                $.post(add_url, data, function (result) {
+                })
+            });
+            $('#btn1').click(function () {
+                $('#shop_params').show();
+                $('#shop_review').hide();
+            });
+            $('#btn2').click(function () {
+                $('#shop_params').hide();
+                $('#shop_review').show();
+            })
+        })
+    </script>
+
+{% endblock %}
+
+{% block title %}
+    详情
+{% endblock %}
+
+{% block head %}
+    {% include 'include/top.html' %}
+    {% include 'include/serach.html' %}
+{% endblock %}
+{% block main %}
+    {% csrf_token %}
+    <div class="clear">
+        <div id="search_img" class="col-lg-6">
+            <img src="/static/img/single/{{ shop.imgs.0.shop_img_id }}.jpg">
+            <ul class="clear">
+                {% for img in shop.imgs %}
+                    {% if img.type == 'type_single' %}
+                        <li data='{{ img.shop_img_id }}'>
+                            <img src="/static/img/small/{{ img.shop_img_id }}.jpg"></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="search_text" class="col-lg-6">
+            <p>{{ shop.name }}</p>
+            <p>{{ shop.sub_title }}</p>
+            <p>聚划算 此商品即将参加聚划算，1天19小时后开始</p>
+            <p><span></span>全天猫实物商品通用</p>
+            <p><span>价  格:</span><span>{{ shop.original_price }}</span></p>
+            <p><span>促销价:</span><span>{{ shop.promote_price }}</span></p>
+            <p><span>销量</span><span>2157</span> | <span>评价量</span><span>{{ count }}</span></p>
+            <p><input type="number" id="number" min="1" max="{{ shop.stock }}" value="1">件 库存量{{ shop.stock }}件 </p>
+            <p>
+                <button type="button" id="buy">立即购买</button>
+                <button type="button" id="add">加入购物车</button>
+            </p>
+        </div>
+    </div>
+    <div id="shop_detail_id">
+        <p id="detail_btn">
+            <button type="button" id="btn1" class="btn">商品详情</button>
+            <button type="button" id="btn2" class="btn">评论 {{ count }}</button>
+        </p>
+        <div style="position: relative">
+            <div id="shop_params" class="text-center clear">
+                {% for value in values %}
+                    <p class="col-lg-4">{{ value.property_id.name }} : {{ value.value }}</p>
+                {% endfor %}
+            </div>
+            <div id="shop_review" class="text-center clear">
+                {% for review in reviews %}
+                    <span><b>初次评价</b>:{{ review.create_date }}</span>
+                    <span>{{ review.content }}</span>
+                    <span>{{ review.uid.user.username }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <ul class="shop_detail_img">
+            {% for img in shop.imgs %}
+                {% if img.type == 'type_detail' %}
+                    <li><img src='/static/img/detail/{{ img.shop_img_id }}.jpg'></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+
+    </div>
+
+{% endblock %}
+{% block footer %}
+    {% include 'include/footer.html' %}
+{% endblock %}

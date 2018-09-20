@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class ShopDetailConfig(AppConfig):
-    name = 'shop_detail'
+    name = 'apps.shop_detail'

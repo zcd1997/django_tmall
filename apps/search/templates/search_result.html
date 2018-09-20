@@ -101,11 +101,11 @@
     <div>
         <div>
             {% for shop in shops %}
-                <div>
+                <a href="{% url 'detail' %}?id={{ shop.shop_id }}">
                     <div><img src="/static/img/middle/{{ shop.imgid.shop_img_id }}.jpg"></div>
                     <div><p>{{ shop.sub_title }}</p></div>
                     <div><p>{{ shop.promote_price }}</p></div>
-                </div>
+                </a>
             {% endfor %}
 
         </div>
