@@ -157,25 +157,8 @@
                 })
 
             });
-            {#复选框#}
-            var selectInputs = document.getElementsByClassName('item');
-            $(".allcheck").click(function () {
-                if ($(".allcheck").attr("checked")) {
-                    $("input[name=item]:checkbox").attr('checked', false);
-                } else {
-                    $("input[name=item]:checkbox").attr('checked', true);
-                }
-            });
-
-            {#结算#}
-            $('#settle_btn').click(function () {
-                let sums = 0;
-                {#获取所有checked为true的钱的值#}
-                $.each($('input[class=check_item]:checked'), function () {
-                    alert($('input[class=check_item]:checked').find('#tr[class=car_td]').attr('value'))
-                });
-            });
         });
+
     </script>
 {% endblock %}
 {% block title %}
@@ -188,7 +171,7 @@
     <div id="car_div">
         <table id="tb_car">
             <tr>
-                <th><input type="checkbox" class="allcheck" name="item"> 全选</th>
+                <th><input type="checkbox" class="check-all" name="item"> 全选</th>
                 <th>商品详情</th>
                 <th>单价</th>
                 <th>数量</th>
@@ -207,7 +190,7 @@
                         <input type="text" min="1" max="{{ car.shop.stock }}" value="{{ car.number }}">
                         <button type="button" class="delete" car_id="{{ car.car_id }}">-</button>
                     </td>
-                    <td class="car_td" value="{{ car.number|cheng:car.shop.promote_price }}">
+                    <td class="car_td">
                         {{ car.number|cheng:car.shop.promote_price }}
                     </td>
                     <td>
@@ -222,7 +205,7 @@
     </div>
     <div id="settle" class="clear">
         <div id="settle_left">
-            <span><input type="checkbox" class="allcheck" name="item">全选</span>
+            <span><input type="checkbox" class="check-all" name="item">全选</span>
             <span>删除</span>
             <span>添加收藏夹</span>
             <span>分享</span>

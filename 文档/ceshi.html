@@ -5,6 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-
+            {#复选框#}
+            var selectInputs = document.getElementsByClassName('item');
+            $(".allcheck").click(function () {
+                if ($(".allcheck").attr("checked")) {
+                    $("input[name=item]:checkbox").attr('checked', false);
+                } else {
+                    $("input[name=item]:checkbox").attr('checked', true);
+                }
+            });
 </body>
 </html>
