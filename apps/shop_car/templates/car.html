@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load guolvqi %}
+{% load staticfiles %}
+{% block css %}
+    {#    顶部的css样式#}
+    <style type="text/css">
+        #top {
+            position: relative;
+            background: #f2f2f2;
+            height: 32px;
+        }
+
+        #top_left {
+            position: absolute;
+            top: 0;
+            left: 50px;
+        }
+
+        #top_left > span {
+            float: left;
+            margin-top: 5px;
+            padding-right: 20px;
+        }
+
+        #top_right {
+            position: absolute;
+            right: 50px;
+            top: 0;
+            margin-top: 5px;
+        }
+
+        #top_right > span {
+            padding-left: 10px;
+        }
+
+        .top_font {
+            color: gray;
+        }
+
+        .glyphicon {
+            color: red;
+        }
+    </style>
+
+    {#    购物车样式#}
+    <style type="text/css">
+        #car_div {
+            padding: 100px 300px;
+        }
+
+        #tb_car {
+            border: 2px solid black;
+        }
+
+        #tb_car > tr {
+            height: 100px;
+        }
+
+        #tb_car th {
+            width: 200px;
+            height: 50px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .tb_img {
+            width: 700px;
+            height: 150px;
+            overflow: hidden;
+        }
+    </style>
+    {#    结算样式#}
+    <style type="text/css">
+        #settle {
+            width: 80%;
+            height: 50px;
+            margin: auto;
+            background: lightgray;
+        }
+
+        #settle_left {
+            float: left;
+            padding: 10px 10px;
+        }
+
+        #settle_left > span {
+            margin-right: 20px;
+        }
+
+        #settle_right {
+            padding: 10px 10px;
+            float: right;
+        }
+
+        #settle_right > span {
+            margin-left: 30px;
+        }
+
+        #settle_right button {
+            width: 100px;
+            height: 50px;
+            margin: -10px 0;
+            border: none;
+        }
+    </style>
+{% endblock %}
+{% block jq %}
+    <script type="text/javascript">
+        $(function () {
+            let delete_url = '/car/delete/';
+            let update_url = '/car/update/';
+            //通过id获取的选择如果有多个只会选择第一个
+            $('.car_btn').click(function () {
+                let $btn = $(this);
+                var conf = confirm('确定删除此商品吗？');
+                if (conf) {
+                    $.post(delete_url, {car_id: $(this).attr('car_id')}, function (result) {
+                        //    当数据库删除了数据  删除该条数据
+                        if (result.status === 200) {
+                            //  第一种通过父容器删除子元素
+                            // 自身删除
+                            $btn.parents('tr').remove();
+                            $('#gouwucar').text(result.car_count + ' ')
+                        }
+                    })
+                }
+            });
+            // 商品数量 +
+
+            $('.add').click(function () {
+                //先找td 通过input
+                // alert($(this).parent().find(':input[type=text]').val())
+                let $input = $(this).next('input');
+                let value = parseInt($input.val()) < parseInt($input.attr('max'))
+                    ? parseInt($input.val()) + 1 : parseInt($input.attr('max'));
+                if (parseInt($input.val()) < parseInt($input.attr('max'))) {
+                    $.post(update_url, {ac: '1', car_id: $(this).attr('car_id')}, function (result) {
+                        if (result.status === 200) {
+                            $('#gouwucar').text(result.car_count + ' ');
+                            $input.val(value)
+                        }
+                    })
+                }
+
+            });
+            // 商品数量 -
+            $('.delete').click(function () {
+                // alert($(this).parent().find(':input[type=text]').val())
+                let $input = $(this).prev('input');
+                let value = $input.val() > 1
+                    ? $input.val() - 1 : 1;
+                $.post(update_url, {ac: '2 ', car_id: $(this).attr('car_id')}, function (result) {
+                    if (result.status === 200) {
+                        $('#gouwucar').text(result.car_count + ' ');
+                        $input.val(value)
+                    }
+                })
+
+            });
+            {#复选框#}
+            var selectInputs = document.getElementsByClassName('item');
+            $(".allcheck").click(function () {
+                if ($(".allcheck").attr("checked")) {
+                    $("input[name=item]:checkbox").attr('checked', false);
+                } else {
+                    $("input[name=item]:checkbox").attr('checked', true);
+                }
+            });
+
+            {#结算#}
+            $('#settle_btn').click(function () {
+                let sums = 0;
+                {#获取所有checked为true的钱的值#}
+                $.each($('input[class=check_item]:checked'), function () {
+                    alert($('input[class=check_item]:checked').find('#tr[class=car_td]').attr('value'))
+                });
+            });
+        });
+    </script>
+{% endblock %}
+{% block title %}
+    购物车
+{% endblock %}
+{% block head %}
+    {% include 'include/top.html' %}
+{% endblock %}
+{% block main %}
+    <div id="car_div">
+        <table id="tb_car">
+            <tr>
+                <th><input type="checkbox" class="allcheck" name="item"> 全选</th>
+                <th>商品详情</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>总价</th>
+                <th>操作</th>
+            </tr>
+            {% for car in cars %}
+                <tr>
+                    <td><input type="checkbox" class="check_item" name="item"></td>
+                    <td class="tb_img"><img src="/static/img/single/{{ car.shop.image.shop_img_id }}.jpg" width="100px">
+                        <a href="">{{ car.shop.name }}</a>
+                    </td>
+                    <td>{{ car.shop.promote_price }}</td>
+                    <td>
+                        <button type="button" class="add" car_id="{{ car.car_id }}">+</button>
+                        <input type="text" min="1" max="{{ car.shop.stock }}" value="{{ car.number }}">
+                        <button type="button" class="delete" car_id="{{ car.car_id }}">-</button>
+                    </td>
+                    <td class="car_td" value="{{ car.number|cheng:car.shop.promote_price }}">
+                        {{ car.number|cheng:car.shop.promote_price }}
+                    </td>
+                    <td>
+                        <button class="car_btn" car_id="{{ car.car_id }}">删除</button>
+                    </td>
+                </tr>
+
+            {% empty %}
+                <a href="#">购物车是空的,再去逛逛吧</a>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="settle" class="clear">
+        <div id="settle_left">
+            <span><input type="checkbox" class="allcheck" name="item">全选</span>
+            <span>删除</span>
+            <span>添加收藏夹</span>
+            <span>分享</span>
+        </div>
+        <div id="settle_right">
+            <span>已选择0件</span>
+            <span>合计 (不含运费) :</span> 0.00
+            <button id="settle_btn">结算</button>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+    {% include 'include/footer.html' %}
+{% endblock %}

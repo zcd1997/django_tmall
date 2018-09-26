@@ -116,7 +116,8 @@
             width: 56px;
             height: 56px;
         }
-        #search_text > p{
+
+        #search_text > p {
             font-size: 20px;
             font-weight: bold;
             margin-top: 35px;
@@ -125,8 +126,9 @@
         #detail_btn {
             text-align: center;
         }
-        .btn{
-            border:none;
+
+        .btn {
+            border: none;
         }
 
         .shop_detail_img {
@@ -157,7 +159,7 @@
             {#     添加购物车#}
             $('#add').click(function () {
                 {#  发送ajax请求#}
-                let add_url = 'http://127.0.0.1:9000/car/add/';
+                let add_url = 'http://127.0.0.1:8000/car/add/';
                 {#post请求提交参数#}
                 /**
                  * data  传递的数据
@@ -178,6 +180,11 @@
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
                 };
                 $.post(add_url, data, function (result) {
+                    if (result && result.status === 200) {
+                        $('#gouwucar').text(result.car_count + ' ')
+                    } else {
+                        alert('添加失败!!!!!')
+                    }
                 })
             });
             $('#btn1').click(function () {
@@ -222,7 +229,7 @@
             <p><span></span>全天猫实物商品通用</p>
             <p><span>价  格:</span><span>{{ shop.original_price }}</span></p>
             <p><span>促销价:</span><span>{{ shop.promote_price }}</span></p>
-            <p><span>销量</span><span>2157</span> | <span>评价量</span><span>{{ count }}</span></p>
+            <p><span>销量</span><span>2157</span> | <span>评价量</span><span>{{ review_counts }}</span></p>
             <p><input type="number" id="number" min="1" max="{{ shop.stock }}" value="1">件 库存量{{ shop.stock }}件 </p>
             <p>
                 <button type="button" id="buy">立即购买</button>
@@ -231,9 +238,10 @@
         </div>
     </div>
     <div id="shop_detail_id">
+        {% csrf_token %}
         <p id="detail_btn">
             <button type="button" id="btn1" class="btn">商品详情</button>
-            <button type="button" id="btn2" class="btn">评论 {{ count }}</button>
+            <button type="button" id="btn2" class="btn">评论 {{ review_counts }}</button>
         </p>
         <div style="position: relative">
             <div id="shop_params" class="text-center clear">

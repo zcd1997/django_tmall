@@ -4,7 +4,7 @@
 <div id="top" class="clear">
     <div id="top_left">
         {% if request.user.is_authenticated %}
-
+            <span><span class="glyphicon glyphicon-home"><a href="/" class="top_font">天猫首页</a></span></span>
             <span>Hi ,<a href="#" class="top_font">{{ request.user.username }}</a></span>
             <span><a href="#" class="top_font">积分</a></span>
             <span><a href="#" class="top_font">消息</a></span>
@@ -18,7 +18,12 @@
     </div>
     <div id="top_right">
         <span><a href="#" class="top_font">我的淘宝</a><span class="glyphicon glyphicon-triangle-bottom"></span></span>
-        <span><span class="glyphicon glyphicon-shopping-cart"><a href="#" class="top_font">购物车0件</a></span></span>
+        <span><span class="glyphicon glyphicon-shopping-cart">
+            <a href="{% url 'car_list' %}" class="top_font">购物车
+            <span id="gouwucar">{% if request.user.is_authenticated %}{{ car_count }}{% else %}0{% endif %}
+            </span>件
+            </a>
+        </span></span>
         <span><a href="#" class="top_font">收藏夹</a><span class="glyphicon glyphicon-triangle-bottom"></span></span>
         <span class="top_font">|</span>
         <span><span class="glyphicon glyphicon-phone"><a href="#" class="top_font">手机版</a></span></span>

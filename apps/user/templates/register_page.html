@@ -1,22 +1,44 @@
 {% extends 'base.html' %}
-{% block main %}
-    <form method="post" action="{% url 'register' %}" class="register_form">
+{% block css %}
+    <style type="text/css">
 
+        .with-errors span {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FF0000;
+        }
+
+        div.register_div {
+            position: relative;
+            right: 0;
+            border: 2px solid red;
+            width: 800px;
+        }
+    </style>
+{% endblock %}
+{% block title %}
+    天猫注册
+{% endblock %}
+{% block main %}
+    <div class="simple_logo">
+        <a href="/"><img src="/static/img/site/simple_logo.png"></a>
+    </div>
+    <form method="post" action="{% url 'register' %}" class="register_form">
         {% csrf_token %}
-        <div class="register_div">
+        <div class="register_div clear">
             <div class="register_error_message_div">
                 <div class="alert alert-danger" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                     <span class="errorMessage"></span>
                 </div>
             </div>
+
             <div>
                 <table class="register_table" align="center">
                     <tr>
                         {% if msg %}
-                            <div class="form-group  w3 w3l">
-                                <div class="help-block with-errors">{{ msg }}</div>
-                            </div>
+                            <td class="register_tip register_table_left_td help-block with-errors">
+                                <span>{{ msg }}</span></td>
                         {% endif %}
                     </tr>
                     <tr>
@@ -28,6 +50,22 @@
                         <td class="register_table_right_td">
                             <input style="font-size: 12px;padding-left: 5px" id="name" name="username"
                                    placeholder="会员名一旦设置成功，无法修改">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="register_table_left_td">邮箱</td>
+                        <td class="register_table_right_td">
+                            <input id="email" style="font-size: 12px;padding-left: 5px" name="email"
+                                   type="text"
+                                   placeholder="设置你的邮箱">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="register_table_left_td">电话</td>
+                        <td class="register_table_right_td">
+                            <input id="phone" style="font-size: 12px;padding-left: 5px" name="phone"
+                                   type="text"
+                                   placeholder="设置你的电话">
                         </td>
                     </tr>
                     <tr>

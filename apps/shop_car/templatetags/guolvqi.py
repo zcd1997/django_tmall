@@ -9,14 +9,14 @@
         4.声明过滤器(过滤器的本质是一个函数)
         5.注册过滤器
         6.在模板中使用
-            1.
+            1.在需要自定义的过滤器的模板中 {% load  custom_filter %}
 """
 from django import template
 
-#实例化注册 (固定格式)
+# 实例化注册 (固定格式)
 register = template.Library()
 
 
 @register.filter
-def cheng(value,params):
+def cheng(value, params):
     return value * params

@@ -5,9 +5,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from apps.home.models import ShopCar
+from apps.home.models import ShopCar, UserProfile
 
 
+# 登录
 def login_view(request):
     if request.method == 'GET':
         return render(request, 'login_page.html')
@@ -26,17 +27,22 @@ def login_view(request):
     else:
         return render(request, 'login_page.html', {'msg': '不支持的请求方式'})
 
+
+# 登出
 def logout_view(request):
     logout(request)
     return redirect('/')
 
 
+# 注册
 def register(request):
     if request.method == 'GET':
         return render(request, 'register_page.html')
     elif request.method == 'POST':
         try:
             username = request.POST.get('username')
+            email = request.POST.get('email')
+            phone = request.POST.get('phone')
             password = request.POST.get('password')
             confirm_password = request.POST.get('password2')
             if password and username and password == confirm_password:
@@ -45,13 +51,16 @@ def register(request):
                     return render(request, 'register_page.html', {'msg': '该用户已存在'})
                     # 注册账号已经存在
                 else:
-                    user = User.objects.create_user(username=username,password=password)
+                    user = User.objects.create_user(username=username, password=password, email=email)
                     user.save()
-                    #保存成功之后跳转到首页
+                    user1 = User.objects.get(username=username)
+                    userprofile = UserProfile.objects.create(user_id=user1.id, phone=phone)
+                    userprofile.save()
+                    # 保存成功之后跳转到首页
                     return redirect('/')
             else:
                 # 参数不符合要求
-                return render(request,'register_page.html',{'msg':'参数不正确'})
+                return render(request, 'register_page.html', {'msg': '参数不正确'})
         except:
             return render(request, 'register_page.html', {'msg': '网络异常请重试'})
     else:

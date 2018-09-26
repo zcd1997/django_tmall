@@ -91,6 +91,16 @@
             color: red;
         }
     </style>
+
+    {#    搜索结果#}
+    <style type="text/css">
+        #item {
+            padding: 100px;
+            width: 400px;
+            height: 500px;
+            float: left;
+        }
+    </style>
 {% endblock %}
 {% block head %}
     {% include 'include/top.html' %}
@@ -98,17 +108,17 @@
 {% endblock %}
 
 {% block main %}
-    <div>
-        <div>
-            {% for shop in shops %}
+
+    <div class="clear">
+        {% for shop in shops %}
+            <div id="item">
                 <a href="{% url 'detail' %}?id={{ shop.shop_id }}">
                     <div><img src="/static/img/middle/{{ shop.imgid.shop_img_id }}.jpg"></div>
                     <div><p>{{ shop.sub_title }}</p></div>
                     <div><p>{{ shop.promote_price }}</p></div>
                 </a>
-            {% endfor %}
-
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

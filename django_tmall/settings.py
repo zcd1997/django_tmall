@@ -75,7 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'apps.user.context_processors.shop_count',
+                'apps.user.context_processors.shop_count',
             ],
         },
     },
@@ -129,6 +129,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS=(
     os.path.join(BASE_DIR,'static'),
+    os.path.join(BASE_DIR,'apps/shop_car/static'),
+
 )
 
 #配置多媒体资源目录
@@ -139,4 +141,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 #全局跳转登录地址
 
-LOGIN_URL = 'user/login/'
+LOGIN_URL = '/user/login/'
+
+
+
+#---------------------------------
+#------------支付宝支付配置
+
+# APP_ID = ''
+#
+# ALI_PAY_URL = ''
+# #测试环境
+# ALI_PAY_DEV_URL = ''
+#
+# #公钥 配置
+# APP_PUBLIC_STRING = open(BASE_DIR+'pay/').read()
+# #私钥 配置
+# APP_PRIVATE_STRING = open(BASE_DIR+'pay/').read()

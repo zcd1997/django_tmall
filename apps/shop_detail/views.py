@@ -15,9 +15,9 @@ def detail(request):
                 values = shop.propertyvalue_set.all()
                 # 获取商品的评论信息
                 reviews = shop.review_set.all()
-                # 获取评论数据
-                count = shop.review_set.count()
-                return render(request,'include/detail.html',{'shop': shop, 'values': values, 'reviews': reviews, 'count': count})
+                # 获取评论数量
+                review_counts = shop.review_set.count()
+                return render(request,'include/detail.html',{'shop': shop, 'values': values, 'reviews': reviews, 'review_counts': review_counts})
         except:
             return render(request, 'error.html')
     else:
