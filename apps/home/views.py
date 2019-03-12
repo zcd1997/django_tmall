@@ -21,5 +21,4 @@ def index(request):
             shop.update(img= ShopImage.objects.filter(shop_id=shop.get('shop_id')).first())
     # 轮播图数据
     banners = Banner.objects.all()
-
     return render(request,'index.html',{'navigations':navigation,'banners':banners,'categorise':categorys})

@@ -179,13 +179,18 @@
                     number: $('#number').val(),
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
                 };
-                $.post(add_url, data, function (result) {
-                    if (result && result.status === 200) {
-                        $('#gouwucar').text(result.car_count + ' ')
-                    } else {
-                        alert('添加失败!!!!!')
-                    }
-                })
+                if ($('#number').val() < {{ shop.stock }}) {
+                    $.post(add_url, data, function (result) {
+                        if (result && result.status === 200) {
+                            $('#gouwucar').text(result.car_count + ' ')
+                        } else {
+                            alert('添加失败!!!!!')
+                        }
+                    })
+                } else {
+                    alert('添加商品数目超过库存量');
+                }
+
             });
             $('#btn1').click(function () {
                 $('#shop_params').show();

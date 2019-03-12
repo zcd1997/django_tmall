@@ -123,3 +123,7 @@
 # < / ul >
 # < / div >
 # { % endfor %}
+import datetime
+
+s = datetime.datetime.now()
+print(s)

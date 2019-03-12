@@ -15,12 +15,6 @@
 {% endblock %}
 {% block main %}
     <div id="login_wrap" style="position: relative">
-        <div class="simple_logo">
-            <a href="/"><img src="/static/img/site/simple_logo.png"></a>
-        </div>
-
-        <img class="login_bg_img" src="/static/img/site/login_bg.jpg">
-
         <form class="login_form" action="{% url 'login' %}" method="post">
             {% csrf_token %}
             <div class="login_small_div">

@@ -49,7 +49,8 @@
         .glyphicon {
             color: red;
         }
-        label.mark{
+
+        label.mark {
             background: url("/static/img/mark1.png") no-repeat -1px -1px;
         }
     </style>
@@ -85,50 +86,51 @@
                 店铺：<a href="javascript:;">店铺名称</a>
             </div>
         </div>
-        {% for car in cars %}
+        <form action="{% url 'confirm' %}" method="post" id="car_form">
             <div class="order_content">
-
-                <ul class="order_lists">
-                    <li class="list_chk">
-                        <input type="checkbox" id="checkbox{{ car.shop_id }}" class="son_check">
-                        <label for="checkbox{{ car.shop_id }}"></label>
-                    </li>
-                    <li class="list_con">
-                        <div class="list_img"><a href="javascript:;"><img
-                                src="/static/img/single/{{ car.shop.image.shop_img_id }}.jpg" alt=""></a></div>
-                        <div class="list_text"><a href="javascript:;">{{ car.shop.name }}</a></div>
-                    </li>
-                    <li class="list_info">
-                        <p>规格：默认</p>
-                        <p>尺寸：16*16*3(cm)</p>
-                    </li>
-                    <li class="list_price">
-                        <p class="price">￥{{ car.shop.promote_price }}</p>
-                    </li>
-                    <li class="list_amount">
-                        <div class="amount_box">
-                            <a href="javascript:;" class="reduce reSty" car_id="{{ car.car_id }}">-</a>
-                            <input type="text" class="sum" min="1" max="{{ car.shop.stock }}"
-                                   value="{{ car.number }}">
-                            <a href="javascript:;" class="plus" car_id="{{ car.car_id }}">+</a>
-                        </div>
-                    </li>
-                    <li class="list_sum">
-                        <p class="sum_price">￥{{ car.number|cheng:car.shop.promote_price }}</p>
-                    </li>
-                    <li class="list_op">
-                        <p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-                    </li>
-                </ul>
+                {% for car in cars %}
+                    <ul class="order_lists">
+                        <li class="list_chk">
+                            <input type="checkbox" id="checkbox{{ car.shop_id }}" class="son_check" car_id="{{ car.car_id }}">
+                            <label for="checkbox{{ car.shop_id }}"></label>
+                        </li>
+                        <li class="list_con">
+                            <div class="list_img"><a href="javascript:;"><img
+                                    src="/static/img/single/{{ car.shop.image.shop_img_id }}.jpg" alt=""></a></div>
+                            <div class="list_text"><a href="javascript:;">{{ car.shop.name }}</a></div>
+                        </li>
+                        <li class="list_info">
+                            <p>规格：默认</p>
+                            <p>尺寸：16*16*3(cm)</p>
+                        </li>
+                        <li class="list_price">
+                            <p class="price">￥{{ car.shop.promote_price }}</p>
+                        </li>
+                        <li class="list_amount">
+                            <div class="amount_box">
+                                <a href="javascript:;" class="reduce reSty" car_id="{{ car.car_id }}">-</a>
+                                <input type="text" class="sum" min="1" max="{{ car.shop.stock }}"
+                                       value="{{ car.number }}">
+                                <a href="javascript:;" class="plus" car_id="{{ car.car_id }}">+</a>
+                            </div>
+                        </li>
+                        <li class="list_sum">
+                            <p class="sum_price">￥{{ car.number|cheng:car.shop.promote_price }}</p>
+                        </li>
+                        <li class="list_op">
+                            <p class="del"><a href="javascript:" class="delBtn" id="{{ car.car_id }}">移除商品</a></p>
+                        </li>
+                    </ul>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </form>
     </div>
     <!--底部-->
     <div class="bar-wrapper">
         <div class="bar-right">
             <div class="piece">已选商品<strong class="piece_num">0</strong>件</div>
             <div class="totalMoney">共计: <strong class="total_text">0.00</strong></div>
-            <div class="calBtn"><a href="javascript:;">结算</a></div>
+            <div class="calBtn"><a href="{% url 'confirm' %}">结算</a></div>
         </div>
     </div>
 </section>
@@ -137,7 +139,8 @@
     <p class="title">删除宝贝<span class="closeModel">X</span></p>
     <p>您确认要删除该宝贝吗？</p>
     <div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;"
-                                                                           class="dialog-close">关闭</a></div>
+                                                                           class="dialog-close">关闭</a>
+    </div>
 </section>
 </body>
 </html>
